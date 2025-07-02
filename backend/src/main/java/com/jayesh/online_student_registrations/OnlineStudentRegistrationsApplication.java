@@ -7,9 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OnlineStudentRegistrationsApplication {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		// ✅ Load .env file
+        // ✅ Load .env file
         Dotenv dotenv = Dotenv.load();
 
         // ✅ Set system properties so Spring can read them
@@ -17,7 +17,11 @@ public class OnlineStudentRegistrationsApplication {
         System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
         System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
 
-		SpringApplication.run(OnlineStudentRegistrationsApplication.class, args);
-	}
+        System.setProperty("SUPABASE_URL", dotenv.get("SUPABASE_URL"));
+        System.setProperty("SUPABASE_ANON_KEY", dotenv.get("SUPABASE_ANON_KEY"));
+        System.setProperty("SUPABASE_SERVICE_ROLE_KEY", dotenv.get("SUPABASE_SERVICE_ROLE_KEY"));
+
+        SpringApplication.run(OnlineStudentRegistrationsApplication.class, args);
+    }
 
 }

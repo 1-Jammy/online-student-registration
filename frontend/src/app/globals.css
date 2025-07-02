@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +8,8 @@
 @import "tailwindcss";
 
 @import "tw-animate-css";
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -124,4 +129,18 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.open-sans {
+  font-family: "Open Sans", sans-serif;
+}
+
+.roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
 }
