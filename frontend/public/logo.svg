@@ -1,0 +1,4 @@
+<!-- public/logo.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor">
+  <path d="M32 4L2 20l30 16 30-16L32 4zm0 40c-11 0-20 4-20 8v8h40v-8c0-4-9-8-20-8z"></path>
+</svg>
