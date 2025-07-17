@@ -95,18 +95,24 @@ export default function Home() {
       setConfirmPasswordError("Passwords do not match");
       return;
     }
+
     const newErrors = { first_name: "", middle_name: "", last_name: "", email: "", password: "", server: "" };
+
     if (!register.email) newErrors.email = "Email is required";
     else if (!validateEmail(register.email)) newErrors.email = "Invalid email format";
     if (!register.password) newErrors.password = "Password is required";
     else if (register.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+
     // Add password requirements validation
     const numbers = (register.password.match(/\d/g) || []).length;
     if (numbers < 2) newErrors.password = "Password must have at least 2 numbers";
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(register.password)) newErrors.password = "Password must have at least one special character";
     if (!/[A-Z]/.test(register.password)) newErrors.password = "Password must have at least one uppercase letter";
     if (!/[a-z]/.test(register.password)) newErrors.password = "Password must have at least one lowercase letter";
+
     setRegisterErrors(newErrors);
+
+    
     if (Object.values(newErrors).some((v) => v)) return;
     setRegisterSubmitting(true);
     try {
@@ -136,7 +142,7 @@ export default function Home() {
     if (!login.email) newErrors.email = "Email is required";
     else if (!validateEmail(login.email)) newErrors.email = "Invalid email format";
     if (!login.password) newErrors.password = "Password is required";
-    else if (login.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+    else if (login.password.length < 6) newErrors.password = "Invalid password";
     setLoginErrors(newErrors);
     if (Object.values(newErrors).some((v) => v)) return;
     setLoginSubmitting(true);
@@ -153,8 +159,12 @@ export default function Home() {
         return;
       }
       if (result.is_admin) {
-        window.location.href = "/admin";
+        localStorage.setItem("is_admin", "true");
+        localStorage.setItem("is_logged_in", "true");
+        window.location.href = "/dashboard/admin";
       } else {
+        localStorage.setItem("is_admin", "false");
+        localStorage.setItem("is_logged_in", "true");
         window.location.href = "/dashboard";
       }
     } catch (err) {
@@ -444,8 +454,9 @@ export default function Home() {
               </DialogContent>
             </Dialog>
 
-            <div className="text-sm text-gray-500">------------------ OR ------------------</div>
-            {/* Dialog Trigger */}
+            <div className="text-sm text-gray-500">------------------ or ------------------</div>
+
+            {/* Login Dialog Trigger (Button) */}
             <Dialog open={loginDialogOpen} onOpenChange={handleLoginDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="default" className="bg-yellow-500 hover:bg-yellow-600 text-current w-80 h-12">Log In</Button>
@@ -471,7 +482,7 @@ export default function Home() {
                     id="login-email"
                     ref={loginEmailRef}
                     type="email"
-                    placeholder="Email"
+                    placeholder="your@email.com"
                     className="w-full px-4 py-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
                     value={login.email}
                     onChange={(e) => setLogin((prev) => ({ ...prev, email: e.target.value }))}
@@ -480,14 +491,15 @@ export default function Home() {
                   <div className="flex items-center gap-2 mb-1">
                     <label htmlFor="login-password" className="relative w-full text-current roboto indent-1 whitespace-nowrap">Password</label>
                     {loginErrors.password && (
-                      <span className="flex items-center text-red-500 text-xs whitespace-nowrap"><span className="material-symbols-rounded text-base text-[#d32f2f] mr-1">warning</span>{loginErrors.password}</span>
+                      <span className="flex items-center text-red-500 text-xs whitespace-nowrap">
+                        <span className="material-symbols-rounded text-base text-[#d32f2f] mr-1">warning</span>{loginErrors.password}</span>
                     )}
                   </div>
                   <div className="relative w-full">
                     <input
                       id="login-password"
                       type={showLoginPassword ? "text" : "password"}
-                      placeholder="Password"
+                      placeholder="********"
                       className="w-full px-4 pr-12 bg-white py-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
                       value={login.password}
                       onChange={(e) => setLogin((prev) => ({ ...prev, password: e.target.value }))}
@@ -498,14 +510,15 @@ export default function Home() {
                       onClick={() => setShowLoginPassword((v) => !v)}
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 p-2.5"
                     >
-                      {showLoginPassword ? <span className="material-symbols-rounded text-xl text-[#1976d2]">visibility_off</span> : <span className="material-symbols-rounded text-xl text-[#1976d2]">visibility</span>}
+                      {showLoginPassword ? <span className="material-symbols-rounded text-xl">visibility_off</span> : <span className="material-symbols-rounded text-xl">visibility</span>}
                     </button>
                   </div>
                   <div className="mt-2">
                     <a href="#" className="text-xs text-blue-600 hover:underline">Forgot password?</a>
                   </div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="flex items-center text-red-500 text-xs whitespace-nowrap"><span className="material-symbols-rounded text-base text-[#d32f2f] mr-1">warning</span>{loginErrors.server}</span>
+                  <div className="flex items-center gap-2 mb-1" style={{ display: loginErrors.server ? 'block' : 'none' }}>
+                    <span className="flex items-center text-red-500 text-xs whitespace-nowrap">
+                      <span className="material-symbols-rounded text-base text-[#d32f2f] mr-1">warning</span>{loginErrors.server}</span>
                   </div>
                   <Button
                     type="submit"
