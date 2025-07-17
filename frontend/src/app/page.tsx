@@ -167,7 +167,7 @@ export default function Home() {
   // Add password strength utility function above the component
   function getPasswordStrength(password: string) {
     let score = 0;
-    let requirements = {
+    const requirements = {
       length: password.length >= 6,
       numbers: (password.match(/\d/g) || []).length >= 2,
       special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
