@@ -44,19 +44,27 @@ export default function Page() {
       {/* Dashboard */}
       {section === 'dashboard' && (
         <section
-          className="h-screen bg-cover bg-center flex flex-col justify-center items-center text-white text-center"
+          className="h-screen w-full bg-cover bg-center flex items-center justify-center relative"
           style={{ backgroundImage: `url('/college.jpg')` }}
         >
-          <div className="bg-black bg-opacity-50 p-10 rounded">
-            <h1 className="text-4xl font-bold mb-4">🎓 Admission Open 2025</h1>
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/50 z-10" />
+          {/* Content */}
+          <div className="relative z-20 text-center text-white max-w-2xl px-4 animate-fadeIn">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg">
+              🎓 Admission Open 2025
+            </h1>
+            <p className="text-lg md:text-xl mb-8">
+              Begin your journey with Springfield Institute, Nagpur’s top-ranked engineering and commerce college.
+            </p>
             <button
               onClick={() => {
                 setSection('');
                 setStep('form');
               }}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-full animate-bounce"
+              className="bg-white text-yellow-600 border-2 border-white hover:bg-yellow-600 hover:text-white transition-all duration-300 px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl scale-100 hover:scale-105"
             >
-              Take Admission
+               Take Admission
             </button>
           </div>
         </section>
@@ -219,6 +227,26 @@ export default function Page() {
           <p>📱 Phone: +91-9876543210</p>
           <p className="mt-4">Office Hours: Mon–Sat, 10:00 AM – 5:00 PM</p>
         </div>
+      )}
+
+      {/* Footer (only for dashboard) */}
+      {section === 'dashboard' && (
+        <footer className="bg-gray-900 text-gray-300 px-6 py-10">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-white">Springfield Institute</h2>
+              <p className="text-sm mt-1">Nagpur, Maharashtra – 440001</p>
+            </div>
+            <div>
+              <p className="text-sm">Email: info@springfield.edu.in</p>
+              <p className="text-sm">Phone: +91-9876543210</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400">© 2025 All rights reserved.</p>
+              <p className="text-xs">Designed by Springfield Web Team</p>
+            </div>
+          </div>
+        </footer>
       )}
     </div>
   );
